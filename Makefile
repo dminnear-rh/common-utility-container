@@ -12,7 +12,11 @@ help:
 	make -f common/Makefile $*
 
 .PHONY: install
-install: operator-deploy post-install ## installs the pattern and loads the secrets
+USE_SECRETS ?= false
+install: operator-deploy
+	@if [ "$(USE_SECRETS)" != "false" ]; then \
+		$(MAKE) post-install; \
+	fi
 	@echo "Installed"
 
 .PHONY: post-install
